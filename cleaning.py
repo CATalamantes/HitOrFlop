@@ -14,26 +14,26 @@ print("==== DATA CLEANING ====")
 data_clean = data.dropna()
 print(f"Original rows: {data.shape[0]} | Clean rows: {data_clean.shape[0]}")
 
-#####Converting date strings to Date object
+#####Converting date strings to datetime object
 data_clean['video_published_at'] = pd.to_datetime(data_clean['video_published_at'])
+data_clean['channel_published_at'] = pd.to_datetime(
+    data_clean['channel_published_at'],
+    format='mixed',
+    utc=True
+)
 data_clean['video_trending__date'] = pd.to_datetime(data_clean['video_trending__date'])
-#data_clean['channel_published_at'] = pd.to_datetime(data_clean['channel_published_at'])
+data_clean['video_duration'] = pd.to_timedelta(
+    data_clean['video_duration']
+        .str.replace('PT', '', regex=False)
+        .str.replace('H', 'h', regex=False)
+        .str.replace('M', 'm', regex=False)
+        .str.replace('S', 's', regex=False))
+#####Converting strings to ints
+data_clean['video_like_count'] = data_clean['video_like_count'].astype(int)
+data_clean['video_view_count'] = data_clean['video_view_count'].astype(int)
+data_clean['video_comment_count'] =data_clean['video_comment_count'].astype(int)
+data_clean['channel_view_count'] = data_clean['video_view_count'].astype(int)
+data_clean['channel_subscriber_count'] = data_clean['channel_subscriber_count'].astype(int)
+data_clean['channel_video_count'] = data_clean['channel_video_count'].astype(int)
 
-#####Converting video duration to datetime object
-pattern = re.compile(r'P(?:(?P<days>\d+)D)?T?(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?')
-
-
-def regex_parse_duration(val):
-    if pd.isna(val) or not isinstance(val, str):
-        return pd.NaT
-
-    match = pattern.match(val)
-    if not match:
-        return pd.NaT
-
-    # Extract matching groups and filter out None values
-    time_params = {k: int(v) for k, v in match.groupdict().items() if v}
-    return timedelta(**time_params)
-
-data_clean['video_duration_new'] = data_clean['video_duration'].apply(regex_parse_duration)
-
+data_clean.to_csv(r"C:\Users\rahma\OneDrive\Documents\YT\cleaned_data.csv", index=False)

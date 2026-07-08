@@ -36,6 +36,6 @@ print("\n")
 ################Ethical and Bias Finding
 print("==== ETHICAL AND BIAS CONSIDERATIONS ====")
 print(f"Top Channel Country Values \n {data['channel_country'].value_counts().head(5)}\n")
-print(f"Top Video Contry Values \n {data['video_trending_country'].value_counts().head(5)}\n")
+print(f"Top Video Country Values \n {data['video_trending_country'].value_counts().head(5)}\n")
 print(f"Top Video Categories \n {data['video_category_id'].value_counts().head(5)}")
 print("\n")
