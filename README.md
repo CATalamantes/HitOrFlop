@@ -5,6 +5,8 @@
 Type in a title, description, tags, category and channel size. Get back a Hit/Flop verdict,
 predicted views/likes/comments, and a ranked list of things to change before you upload.
 
+new version link: https://hitorflop-home.vercel.app/
+
 ```bash
 # backend
 cd backend
